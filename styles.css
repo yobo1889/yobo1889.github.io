@@ -11,12 +11,15 @@ body {
 #bio {
     display: grid;
     place-items: center; 
-    margin-top: -10px;
+    margin-top: 10px;
+    margin-right: 800px;
 
 }
 
 #pic-dec {
     display: flex;
+    margin-right: 200px;
+    align-items: center; 
 }
 .bebas-neue-regular {
     font-family: "Bebas Neue", sans-serif;
@@ -24,22 +27,32 @@ body {
     font-style: normal;
   }
   
-
-h1 {
+  #name {
+    position: relative; /* Position relative to contain the pseudo-element */
+    font-size: 34px;
     color: white;
-    font-size: 70px;
     font-family: "Bebas Neue", sans-serif;
-    margin-bottom: 0%;
-    margin-left: 10px;
+    margin-left: 100px;
+    height: 200px;
+    width: 900px;
+    margin-top: 50px;
+    display: inline-block; /* Ensure the background only surrounds the text */
+    padding-left: 20px; /* Add padding to separate text from the border */
+    background-color: black;
 }
 
-h2 {
-    margin-top: 0%;
-    margin-left: 20px;
-    color: white;
-    font-size: 70px;
-    font-family: "Bebas Neue", sans-serif;
+#name::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    margin-top: 200px;
+    left: 0;
+    height: 3px;
+    width: 100%; /* Width of the left border */
+    background: linear-gradient(to right, yellow, transparent); /* Horizontal fade from yellow to transparent */
 }
+
+
 
 .container {
     display: flex;
@@ -69,7 +82,6 @@ h2 {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 5px solid #333;
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -94,9 +106,8 @@ h2 {
 }
 
 .custom-cursor {
-    width: 35px;
-    height: 35px;
-    border: 2px solid #000;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     position: absolute;
     pointer-events: none; /* Makes sure the cursor does not interfere with other elements */
@@ -104,7 +115,7 @@ h2 {
     background-color: #00aaed; /* Semi-transparent background */
     transform: translate(-50%, -50%); /* Center the cursor */
     animation-name: stretch;
-    animation-duration: 2.0s;
+    animation-duration: 1.2s;
     animation-timing-function: ease-out;
     animation-direction: alternate;
     animation-iteration-count: infinite;
@@ -113,33 +124,37 @@ h2 {
 
 .custom-cursor::after {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: #ffffff;
+    border: 0.3px solid #000;
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-10%, -90%);
 }
 
 @keyframes stretch {
     0% {
         opacity: 0.2;
-        background-color: #350c32;
+        background-color: #a4900e; /* Dark yellow color */
         border-radius: 100%;
     }
     50% {
-        background-color: #4a0532;
+        background-color: #FFFF00; /* Brighter yellow */
     }
     100% {
         transform: scale(2.0);
-        background-color: #af167a;
+        background-color: #FFD700;
     }
 }
 
+
 .social-media-links {
     display: flex;
+    height: 30px;
+    width: auto;
     gap: 20px;
     justify-content: right;
     align-items: center;
@@ -156,20 +171,21 @@ h2 {
 }
 
 .social-icon:hover {
-    color: #0073b1; /* Change to desired hover color */
+    color: #0073b1; 
+    font-size: 4em;/* Change to desired hover color */
 }
 
 /* Specific colors for each icon */
 .instagram {
-    color: #E4405F;
+    color: #FFFF00;
 }
 
 .linkedin {
-    color: #0077B5;
+    color: #FFFF00;
 }
 
 .github {
-    color: #333;
+    color: #FFFF00;
 }
 
 .instagram:hover {
@@ -190,8 +206,8 @@ body::before,
 body::after {
     content: '';
     position: absolute;
-    background-color: #af167a; /* Dark pinkish color */
-    animation: electricRun 2s infinite; /* Apply animation */
+    background-color: #FFD700; /* Dark yellow color */
+    
 }
 
 body::before {
@@ -200,6 +216,7 @@ body::before {
     right: 80px; /* Slightly padded from the right side */
     height: 3px; /* Height of the top line */
     clip-path: polygon(0% 0%, 5% 100%, 100% 100%, 100% 0%);
+    animation: electricRun 2s infinite; /* Apply animation */
 }
 
 body::after {
@@ -208,17 +225,54 @@ body::after {
     bottom: 60px;
     width: 3px; /* Width of the right line */
     clip-path: polygon(100% 0%, 100% 100%, 0% 95%, 0% 0%);
+    animation: electricRun 3s infinite; /* Apply animation */
 }
 
 /* Keyframes for electric effect */
 @keyframes electricRun {
     0% {
-        background-color: #af167a;
+        background-color: #5d583f;
     }
     50% {
-        background-color: #ff69b4; /* Brighter pink */
+        background-color: #828244; /* Brighter yellow */
     }
     100% {
-        background-color: #af167a;
+        background-color: #FFD700;
     }
 }
+.text-slider {
+    position: relative;
+    color:white;
+    margin-left: 40px;
+    overflow: hidden;
+    font-size: 50px;
+}
+
+.text-slide {
+    animation: slideUp 6s infinite; /* Adjust timing as needed */
+    opacity: 0;
+}
+
+@keyframes slideUp {
+    0%, 20% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    25%, 45% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50%, 100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+.text-slide:nth-child(2) {
+    animation-delay: 2s; /* Adjust timing as needed */
+}
+
+.text-slide:nth-child(3) {
+    animation-delay: 4s; /* Adjust timing as needed */
+}
+

@@ -16,7 +16,9 @@
 
             setInterval(() => {
                 flipContainer.classList.toggle('hover');
-            }, 3000); // Change the interval time (in milliseconds) as needed
+            }, 1000); // Change the interval time (in milliseconds) as needed
+    </script>
+
 
 
         </script>
@@ -27,11 +29,14 @@
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     </head>
     <body>
+        <div class="parent-container">
             <div class="social-media-links">
                 <a href="https://www.instagram.com/yeabsira.gg" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.linkedin.com/in/yeabsirag" target="_blank" class="social-icon linkedin"><i class="fab fa-linkedin"></i></a>
                 <a href="https://github.com/yobo1889" target="_blank" class="social-icon github"><i class="fab fa-github"></i></a>
             </div>
+        </div>
+           <div class="parent-container">
             <div id = "bio">
                 <div id = "pic-dec">
                     <div class="container">
@@ -42,13 +47,17 @@
                             </div>
                         </div>
                     </div>
-                    
-                   
+                    <div class="text-slider">
+                        <div class="text-slide">Machine Learning</div>
+                        <div class="text-slide">Finance</div>
+                        <div class="text-slide">Dev</div>
+                    </div>
                 </div>
                 <div class="custom-cursor"></div>
-                <h1>Yeabsira</h1>
-                
-                <h2>Gebreegziabher</h2>
+                <div id="name">
+                    <h1>Yeabsira<br>Gebreegziabher</h1>
+                </div>
             </div>
+        </div>
     </body>
 </html>
