@@ -9,8 +9,10 @@ body {
     font-family: "Bebas Neue", sans-serif;
 }
 #bio {
-    margin-top: 10px;
-    margin-left: 60px;
+    display: grid;
+    place-items: center; 
+    margin-top: -10px;
+
 }
 
 #pic-dec {
@@ -25,17 +27,17 @@ body {
 
 h1 {
     color: white;
-    font-size: 50px;
+    font-size: 70px;
     font-family: "Bebas Neue", sans-serif;
     margin-bottom: 0%;
-    margin-left: 50px;
+    margin-left: 10px;
 }
 
 h2 {
     margin-top: 0%;
-    margin-left: 70px;
+    margin-left: 20px;
     color: white;
-    font-size: 50px;
+    font-size: 70px;
     font-family: "Bebas Neue", sans-serif;
 }
 
@@ -45,13 +47,44 @@ h2 {
     align-items: center;
 }
 
-#circularImage {
-    width: 200px; /* Set a fixed width for the image */
-    height: 200px; /* Set a fixed height for the image */
-    border-radius: 50%; /* Make the image circular */
-    border: 5px solid #333; /* Add a border around the image */
-    object-fit: cover; /* Ensure the image covers the container evenly */
+.flip-container {
+    width: 200px;
+    height: 200px;
+    perspective: 1000px; /* Adds perspective for the 3D effect */
 }
+
+.flipper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.flip-container:hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.circularImage {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #333;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden; /* Hides the back side of the image */
+}
+
+.front {
+    transform: rotateY(0deg);
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
 
 .small {
     width: 6px;
@@ -151,72 +184,41 @@ h2 {
     color: #6e5494;
 }
 
-.short-description-displayer {
-    font-size: 3em;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    background-color: #140136;
-    width: 5em; /* Adjust width as needed */
-    text-align: left;
-    height: 1em; /* Allow height to adjust based on content */
-    margin-top: 80px;
-    margin-left: 70px;
-    padding-top: 4px;
-    padding-left: 14px;
-    padding-bottom: 6px; /* Add padding for spacing */
-    border-left: 8px solid #4e0e42; /* Add left border */
-}
-
-.short-descriptions span {
-    display: inline-block;
-    white-space: nowrap;
-    position: absolute;
-    animation: word-animation 3s infinite;
-    transform-style: preserve-3d;
-}
-
-@keyframes word-animation {
-    0% {
-        opacity: 0;
-        transform: rotateX(90deg) translateY(100%);
-    }
-    10% {
-        opacity: 1;
-        transform: rotateX(0deg) translateY(0%);
-    }
-    30% {
-        opacity: 1;
-        transform: rotateX(0deg) translateY(0%);
-    }
-    40% {
-        opacity: 0;
-        transform: rotateX(-90deg) translateY(-100%);
-    }
-    100% {
-        opacity: 0;
-        transform: rotateX(-90deg) translateY(-100%);
-    }
-}
-
-/* New lines on the right and top side of the webpage */
+/* New lines on the right and top side of the webpage with reversed sharp diagonal edges */
+/* New lines on the right and top side of the webpage with animation */
 body::before,
 body::after {
     content: '';
     position: absolute;
     background-color: #af167a; /* Dark pinkish color */
+    animation: electricRun 2s infinite; /* Apply animation */
 }
 
 body::before {
-    top: 10px; /* Padding from the top border */
-    left: 30px;
-    right: 20px; /* Slightly padded from the right side */
+    top: 20px; /* Padding from the top border */
+    left: 50px;
+    right: 80px; /* Slightly padded from the right side */
     height: 3px; /* Height of the top line */
+    clip-path: polygon(0% 0%, 5% 100%, 100% 100%, 100% 0%);
 }
 
 body::after {
-    top: 70px; /* Slightly padded from the top side */
-    right: 10px; /* Padding from the right border */
-    bottom: 30px;
+    top: 100px; /* Slightly padded from the top side */
+    right: 30px; /* Padding from the right border */
+    bottom: 60px;
     width: 3px; /* Width of the right line */
+    clip-path: polygon(100% 0%, 100% 100%, 0% 95%, 0% 0%);
+}
+
+/* Keyframes for electric effect */
+@keyframes electricRun {
+    0% {
+        background-color: #af167a;
+    }
+    50% {
+        background-color: #ff69b4; /* Brighter pink */
+    }
+    100% {
+        background-color: #af167a;
+    }
 }

@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const customCursor = document.querySelector('.custom-cursor');
-            
-            document.addEventListener('mousemove', (e) => {
-                customCursor.style.left = `${e.pageX}px`;
-                customCursor.style.top = `${e.pageY}px`;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const customCursor = document.querySelector('.custom-cursor');
+                
+                document.addEventListener('mousemove', (e) => {
+                    customCursor.style.left = `${e.pageX}px`;
+                    customCursor.style.top = `${e.pageY}px`;
+                });
             });
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            const words = ["Curious", "Dedicated", "A Leader"];
-            let currentIndex = 0;
-            const displayedWord = document.getElementById('short-descriptions');
+            const flipContainer = document.querySelector('.flip-container');
 
-            const changeWord = () => {
-                currentIndex = (currentIndex + 1) % words.length;
-                displayedWord.textContent = words[currentIndex];
-            };
-
-            setInterval(changeWord, 3000); // Change word every 3 seconds
-        });
+            setInterval(() => {
+                flipContainer.classList.toggle('hover');
+            }, 3000); // Change the interval time (in milliseconds) as needed
 
 
-    </script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="social-media-links">
-        <a href="https://www.instagram.com/yeabsira.gg" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/yeabsirag" target="_blank" class="social-icon linkedin"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/yobo1889" target="_blank" class="social-icon github"><i class="fab fa-github"></i></a>
-    </div>
-    <div id = "bio">
-     <div id = "pic-dec">
-        <div class="container">
-            <img src="photo.jpg" id="circularImage">
-        </div>
-        <div class="short-description-displayer">
-            <span id="short-descriptions">An Innovater</span>
-        </div>
-    </div>
-    <div class="custom-cursor"></div>
-    <h1>Yeabsira</h1>
-     
-    <h2>Gebreegziabher</h2>
-    </div>
-</body>
+        </script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    </head>
+    <body>
+            <div class="social-media-links">
+                <a href="https://www.instagram.com/yeabsira.gg" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/yeabsirag" target="_blank" class="social-icon linkedin"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/yobo1889" target="_blank" class="social-icon github"><i class="fab fa-github"></i></a>
+            </div>
+            <div id = "bio">
+                <div id = "pic-dec">
+                    <div class="container">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <img src="photo.jpg" class="circularImage front">
+                                <img src="photo2.webp" class="circularImage back">
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <div class="custom-cursor"></div>
+                <h1>Yeabsira</h1>
+                
+                <h2>Gebreegziabher</h2>
+            </div>
+    </body>
 </html>
