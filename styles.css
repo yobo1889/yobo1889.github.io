@@ -1,0 +1,90 @@
+body {
+    background-image: url('main_background.png');
+    background-size: cover; 
+    overflow-y: scroll;
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-attachment: fixed;
+    cursor: none;
+}
+#bio{
+    padding:50px;
+}
+h1 {
+    color:white;
+    font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 0%;
+}
+h2 {
+    margin-top: 0%;
+    margin-left: 10px;
+    color:white;
+    font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+#circularImage {
+    width: 200px; /* Set a fixed width for the image */
+    height: 200px; /* Set a fixed height for the image */
+    border-radius: 50%; /* Make the image circular */
+    border: 5px solid #333; /* Add a border around the image */
+    object-fit: cover; /* Ensure the image covers the container evenly */
+}
+.small{
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+  }
+  .custom-cursor {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    position: absolute;
+    pointer-events: none; /* Makes sure the cursor does not interfere with other elements */
+    transition: transform 0.1s ease;
+    background-color: #00aaed; /* Semi-transparent background */
+    transform: translate(-50%, -50%); /* Center the cursor */
+    animation-name: stretch;
+            animation-duration: 2.0s;
+            animation-timing-function: ease-out;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+            animation-play-state: running;
+}
+
+.custom-cursor::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+@keyframes stretch {
+    0% {
+       
+        opacity: 0.2;
+        background-color: #00aaed;
+        border-radius: 100%;
+    }
+
+    50% {
+        background-color: orange;
+    }
+
+    100% {
+        transform: scale(2.0);
+        background-color: #00aaed;
+    }
+}
