@@ -3,301 +3,120 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Metro-Style Moving Clock (Adjustable Date)</title>
+  <title>Metro Transit Clock Replica</title>
   <style>
-    :root{
-      --bg:#0b0f14;
-      --tile:#111827; /* slate-900 */
-      --tile-acc:#1f2937; /* slate-800 */
-      --text:#e5e7eb; /* gray-200 */
-      --muted:#9ca3af; /* gray-400 */
-      --accent:#60a5fa; /* blue-400 */
-      --good:#34d399; /* green-400 */
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 22px;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
     body{
-      margin:0; background: radial-gradient(1200px 800px at 15% 10%, #0f172a 0%, #0b0f14 55%);
-      color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      display:grid; place-items:center;
+      margin:0; padding:0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background:#fff;
+      display:flex; justify-content:center; align-items:flex-start;
+      min-height:100vh;
     }
-
-    .wrap{width:min(980px, 96vw);}
-
-    .grid{display:grid; grid-template-columns: 1fr; gap:18px}
-
-    .tile{
-      background: linear-gradient(180deg, var(--tile) 0%, var(--tile-acc) 100%);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px 24px;
-      position: relative;
-      overflow: hidden;
-      border:1px solid rgba(255,255,255,.06);
+    .container{
+      width:100%; max-width:420px; padding:20px; box-sizing:border-box;
     }
-
-    .tile .glow{position:absolute; inset:auto -40% -60% -40%; height:220px; background: radial-gradient(50% 50% at 50% 50%, rgba(96,165,250,.18) 0%, rgba(96,165,250,0) 70%); filter: blur(20px);}
-
-    .header{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px}
-    .tag{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
-
-    /* CLOCK */
+    .header{
+      font-size:18px; font-weight:600;
+    }
+    .subheader{
+      font-size:14px; color:#444;
+    }
+    .circle{
+      margin:24px auto;
+      width:160px; height:160px; border-radius:50%;
+      background:#f97316; /* orange */
+      display:flex; justify-content:center; align-items:center;
+    }
+    .circle-inner{
+      width:90px; height:90px; border-radius:50%; background:#fff;
+      display:flex; justify-content:center; align-items:center;
+      font-weight:bold; font-size:24px; color:#2563eb; /* blue */
+    }
     .clock{
-      display:flex; align-items:baseline; gap:10px; user-select:none;
+      text-align:center;
+      font-size:42px; font-weight:700; margin:16px 0;
     }
-    .time{font-variant-numeric: tabular-nums; display:flex; align-items:baseline; gap:.1ch}
-    .hh, .mm, .ss{font-size: clamp(48px, 8vw, 108px); line-height:1; font-weight:700}
-    .colon{font-size: clamp(38px, 6.2vw, 86px); line-height:1; opacity:.9; transition:opacity .25s ease}
-
-    .ampm{font-size: clamp(16px, 2.2vw, 22px); color:var(--muted); margin-left:.3ch; font-weight:600}
-
-    .meta{display:flex; align-items:center; gap:12px; color:var(--muted)}
-    .date{font-size: clamp(14px, 1.8vw, 18px)}
-    .tz{font-size:12px; padding:.2rem .5rem; border-radius:999px; background:rgba(96,165,250,.12); color:#bfdbfe; border:1px solid rgba(96,165,250,.25)}
-
-    /* Controls */
-    .controls{display:grid; gap:12px; grid-template-columns: repeat(12, 1fr)}
-    .controls .tile{padding:16px}
-    .ctrl-row{grid-column: 1 / -1; display:grid; gap:12px; grid-template-columns: repeat(12, 1fr)}
-
-    .field{grid-column: span 6; display:flex; flex-direction:column; gap:6px}
-    .field.inline{flex-direction:row; align-items:center}
-    label{font-size:12px; color:var(--muted)}
-
-    input[type="datetime-local"], select, input[type="text"]{
-      width:100%; background:#0b1220; border:1px solid rgba(255,255,255,.08); color:var(--text); padding:10px 12px; border-radius:12px; outline:none;
+    .ticket{
+      background:#fff; border:1px solid #e5e7eb; border-radius:8px;
+      padding:14px; margin-top:16px;
+      box-shadow:0 2px 4px rgba(0,0,0,.08);
     }
-
-    .switch{display:inline-flex; align-items:center; gap:10px}
-    .switch input{appearance:none; width:44px; height:26px; background:#0b1220; border:1px solid rgba(255,255,255,.1); border-radius:999px; position:relative; cursor:pointer; transition:.2s}
-    .switch input:checked{background:rgba(52,211,153,.2); border-color:rgba(52,211,153,.45)}
-    .switch input:before{content:""; position:absolute; width:20px; height:20px; top:50%; left:3px; transform:translateY(-50%); border-radius:50%; background:#e5e7eb; transition:.2s}
-    .switch input:checked:before{left:21px; background:#34d399}
-
-    .btns{display:flex; flex-wrap:wrap; gap:10px}
-    button{background:linear-gradient(180deg, #1f2937, #111827); color:var(--text); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:600}
-    button.primary{border-color: rgba(96,165,250,.45); box-shadow: 0 0 0 3px rgba(96,165,250,.12) inset}
-
-    .hint{font-size:12px; color:var(--muted)}
-
-    /* Tick animation for number changes */
-    .flip{animation: flip .38s ease}
-    @keyframes flip{ 0%{transform:translateY(8px); opacity:.6} 100%{transform:none; opacity:1} }
-
-    /* Responsive tweaks */
-    @media (max-width:720px){
-      .field{grid-column: span 12}
-      .time{gap:.05ch}
+    .ticket-title{
+      font-size:18px; font-weight:500;
+    }
+    .ticket-sub{
+      font-size:14px; color:#555; margin-bottom:8px;
+    }
+    .ticket-exp{
+      font-size:14px; font-weight:500; color:#111;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="grid">
-      <div class="tile" id="clockTile" aria-live="polite">
-        <div class="glow" aria-hidden="true"></div>
-        <div class="header">
-          <div class="tag">Minneapolis — Metro Style Clock</div>
-          <div class="meta">
-            <div class="tz" id="tzBadge">Local</div>
-          </div>
-        </div>
-        <div class="clock">
-          <div class="time" aria-label="time">
-            <span class="hh" id="hh">--</span>
-            <span class="colon" id="c1">:</span>
-            <span class="mm" id="mm">--</span>
-            <span class="colon" id="c2">:</span>
-            <span class="ss" id="ss">--</span>
-            <span class="ampm" id="ampm"></span>
-          </div>
-        </div>
-        <div class="meta" style="margin-top:10px">
-          <div class="date" id="dateStr">—</div>
-        </div>
-      </div>
+  <div class="container">
+    <div class="header">Metro Transit</div>
+    <div class="subheader">Show operator your ticket</div>
 
-      <div class="controls tile" role="group" aria-label="clock controls">
-        <div class="ctrl-row">
-          <div class="field" style="grid-column: span 7">
-            <label for="dtInput">Custom date & time</label>
-            <input id="dtInput" type="datetime-local" />
-            <div class="hint">Set a starting point. The clock will keep moving from this timestamp.</div>
-          </div>
-          <div class="field inline" style="grid-column: span 5; justify-content:space-between">
-            <label class="switch" title="Use custom date/time">
-              <span>Use custom</span>
-              <input id="useCustom" type="checkbox" />
-            </label>
-            <label class="switch" title="12-hour format">
-              <span>12‑hour</span>
-              <input id="use12" type="checkbox" />
-            </label>
-            <label class="switch" title="Show seconds">
-              <span>Seconds</span>
-              <input id="showSeconds" type="checkbox" checked />
-            </label>
-            <label class="switch" title="Blink colon">
-              <span>Blink</span>
-              <input id="blink" type="checkbox" checked />
-            </label>
-          </div>
-        </div>
-        <div class="ctrl-row">
-          <div class="field" style="grid-column: span 12">
-            <div class="btns">
-              <button id="apply" class="primary">Apply custom time</button>
-              <button id="nowBtn">Reset to now</button>
-              <button id="copyBtn" title="Copy current timestamp to clipboard">Copy timestamp</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="circle">
+      <div class="circle-inner">go to</div>
+    </div>
+
+    <div class="clock" id="clock">--:--:--</div>
+
+    <div class="ticket">
+      <div class="ticket-title">Adult Non-Rush Hour</div>
+      <div class="ticket-sub">Minneapolis/ St. Paul Metro Area</div>
+      <div class="ticket-exp" id="exp">Expires —</div>
     </div>
   </div>
 
   <script>
-    ;(() => {
-      const el = id => document.getElementById(id);
-      const hh = el('hh'), mm = el('mm'), ss = el('ss');
-      const c1 = el('c1'), c2 = el('c2');
-      const ampm = el('ampm');
-      const dateStr = el('dateStr');
-      const tzBadge = el('tzBadge');
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function updateClock(){
+      const d = currentDate();
+      let h = d.getHours();
+      let m = d.getMinutes();
+      let s = d.getSeconds();
+      let ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12; if(h === 0) h = 12;
+      document.getElementById('clock').textContent = `${h}:${pad(m)}:${pad(s)} ${ampm}`;
+    }
 
-      const useCustom = el('useCustom');
-      const use12 = el('use12');
-      const showSeconds = el('showSeconds');
-      const blink = el('blink');
-      const dtInput = el('dtInput');
-      const apply = el('apply');
-      const nowBtn = el('nowBtn');
-      const copyBtn = el('copyBtn');
-
-      // State for custom-moving clock
-      let customEpochMs = null;   // the selected starting point (ms since epoch)
-      let appliedAtMs = null;     // real time (ms) when custom was applied
-
-      // Default to user's local zone name
-      try {
-        const z = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        tzBadge.textContent = z || 'Local';
-      } catch { tzBadge.textContent = 'Local' }
-
-      function pad(n){ return String(n).padStart(2,'0') }
-
-      function formatDate(d){
-        return new Intl.DateTimeFormat(undefined, {
-          weekday:'short', year:'numeric', month:'short', day:'2-digit'
-        }).format(d);
+    // Adjustable date logic
+    let customEpochMs = null;
+    let appliedAtMs = null;
+    function currentDate(){
+      const now = Date.now();
+      if(customEpochMs!=null && appliedAtMs!=null){
+        const delta = now - appliedAtMs;
+        return new Date(customEpochMs + delta);
       }
+      return new Date();
+    }
 
-      function computeNow(){
-        const realNow = Date.now();
-        if(useCustom.checked && customEpochMs!=null && appliedAtMs!=null){
-          const delta = realNow - appliedAtMs; // keep moving from base
-          return new Date(customEpochMs + delta);
-        }
-        return new Date(realNow);
-      }
-
-      let lastRendered = {h:null, m:null, s:null, am:null};
-      let tickTimer = null, blinkTimer = null, blinkOn = true;
-
-      function render(){
-        const d = computeNow();
-        const hours = d.getHours();
-        const mins = d.getMinutes();
-        const secs = d.getSeconds();
-
-        let displayH = hours;
-        let am = '';
-        if(use12.checked){
-          am = hours >= 12 ? 'PM' : 'AM';
-          displayH = hours % 12; if(displayH === 0) displayH = 12;
-        }
-
-        if(lastRendered.h !== displayH){ hh.textContent = pad(displayH); hh.classList.add('flip'); setTimeout(()=>hh.classList.remove('flip'), 300); }
-        if(lastRendered.m !== mins){ mm.textContent = pad(mins); mm.classList.add('flip'); setTimeout(()=>mm.classList.remove('flip'), 300); }
-
-        if(showSeconds.checked){
-          if(lastRendered.s !== secs){ ss.textContent = pad(secs); ss.classList.add('flip'); setTimeout(()=>ss.classList.remove('flip'), 300); }
-          ss.style.display = '';
-          c2.style.display = '';
-        } else {
-          ss.style.display = 'none';
-          c2.style.display = 'none';
-        }
-
-        ampm.textContent = use12.checked ? am : '';
-        dateStr.textContent = formatDate(d);
-
-        lastRendered = {h:displayH, m:mins, s:secs, am};
-      }
-
-      function start(){
-        stop();
-        render();
-        tickTimer = setInterval(render, 1000);
-        if(blink.checked){
-          blinkTimer = setInterval(()=>{
-            blinkOn = !blinkOn;
-            const op = blinkOn ? 1 : .2;
-            c1.style.opacity = op; c2.style.opacity = op;
-          }, 500);
-        }
-      }
-
-      function stop(){
-        if(tickTimer) clearInterval(tickTimer);
-        if(blinkTimer) clearInterval(blinkTimer);
-        tickTimer = blinkTimer = null;
-        c1.style.opacity = 1; c2.style.opacity = 1;
-      }
-
-      // Controls
-      apply.addEventListener('click', () => {
-        if(!dtInput.value){
-          alert('Pick a custom date/time first.');
-          return;
-        }
-        const picked = new Date(dtInput.value);
-        if(Number.isNaN(+picked)){
-          alert('Invalid date/time.');
-          return;
-        }
-        customEpochMs = +picked;
+    function setCustomDate(str){
+      const d = new Date(str);
+      if(!isNaN(+d)){
+        customEpochMs = +d;
         appliedAtMs = Date.now();
-        useCustom.checked = true;
-        start();
-      });
+      }
+    }
 
-      nowBtn.addEventListener('click', () => {
-        useCustom.checked = false;
-        customEpochMs = appliedAtMs = null;
-        dtInput.value = '';
-        start();
-      });
+    // Example: set expiration date
+    function setExpiration(str){
+      const d = new Date(str);
+      if(!isNaN(+d)){
+        document.getElementById('exp').textContent =
+          `Expires ${d.toLocaleString(undefined, { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'})}`;
+      }
+    }
 
-      copyBtn.addEventListener('click', async () => {
-        const d = computeNow();
-        try {
-          await navigator.clipboard.writeText(d.toISOString());
-          copyBtn.textContent = 'Copied!';
-          setTimeout(()=>copyBtn.textContent='Copy timestamp', 1200);
-        } catch {
-          alert('Could not copy to clipboard.');
-        }
-      });
+    // Update clock every second
+    updateClock();
+    setInterval(updateClock,1000);
 
-      ;[use12, showSeconds, blink, useCustom].forEach(ctrl => ctrl.addEventListener('change', start));
-
-      // Kick off
-      start();
-    })();
+    // Example usage (set adjustable expiration)
+    setExpiration('2024-12-12T21:03:00');
   </script>
 </body>
 </html>
