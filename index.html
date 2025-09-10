@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metro Transit Ticket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fff;
+      margin: 0;
+      flex-direction: column;
+    }
 
+    .circle-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .outer-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #f26522;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    .inner-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: #006838;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .clock {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .ticket {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 80%;
+      max-width: 350px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .ticket h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    .ticket p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .ticket .expires {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #b00;
+    }
+  </style>
+</head>
+<body>
+  <h3>Metro Transit</h3>
+  <p>Show operator your ticket</p>
+
+  <div class="circle-container">
+    <div class="outer-circle">
+      <div class="inner-circle">go to</div>
+    </div>
+  </div>
+
+  <div class="clock" id="clock"></div>
+
+  <div class="ticket">
+    <h2>Adult Non-Rush Hour</h2>
+    <p>Minneapolis/ St. Paul Metro Area</p>
+    <p class="expires" id="expires"></p>
+  </div>
+
+  <script>
+    let customDate = null;
+
+    function updateClock() {
+      let now = customDate ? new Date(customDate) : new Date();
+      let timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit'
