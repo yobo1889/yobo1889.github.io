@@ -24,25 +24,20 @@
       font-size:14px; color:#444;
     }
     .circle{
+      --scale: 1;
       margin:24px auto;
       width:200px; height:200px; border-radius:50%;
       background:#f97316; /* orange */
       display:flex; justify-content:center; align-items:center;
       animation: heartbeat 2s infinite;
+      transform: scale(var(--scale));
     }
     .circle-inner{
       width:90px; height:90px; border-radius:50%; background:#fff;
       display:flex; justify-content:center; align-items:center;
       font-weight:bold; font-size:24px; color:#2563eb; /* blue */
-      animation: revert;
-      animation: none;
-    }
-    .circle-highli{
-      width:90px; height:90px; border-radius:50%; background:#fff;
-      display:flex; justify-content:center; align-items:center;
-      font-weight:bold; font-size:24px; color:#2563eb; /* blue */
-      animation: revert;
-      animation: none;
+      /* cancel parent scaling */
+      transform: scale(calc(1 / var(--scale)));
     }
     .clock{
       padding: 20px;
@@ -65,13 +60,13 @@
     }
 
     @keyframes heartbeat {
-      0% { transform: scale(1); }
-      20% { transform: scale(0.9, 0.9); }
-      40% { transform: scale(0.8, 0.8); }
-      60% { transform: scale(0.7 0.7); }
-      75% { transform: scale(0.8, 0.8); }
-      85% { transform: scale(0.9, 0.9); }
-      100% { transform: scale(1); }
+      0%   { --scale: 1; }
+      20%  { --scale: 0.9; }
+      40%  { --scale: 0.8; }
+      60%  { --scale: 0.7; }
+      75%  { --scale: 0.8; }
+      85%  { --scale: 0.9; }
+      100% { --scale: 1; }
     }
   </style>
 </head>
@@ -81,10 +76,8 @@
     <div class="subheader">Show operator your ticket</div>
 
     <div class="circle">
-      <div class="circle-highlight">
-        <div class="circle-inner">
-          <img src="go.jpg" height="65px", width="65px"> <img>
-        </div>
+      <div class="circle-inner">
+        <img src="go.jpg" height="65" width="65" alt="logo">
       </div>
     </div>
 
