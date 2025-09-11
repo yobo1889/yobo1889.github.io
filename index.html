@@ -39,6 +39,15 @@
       /* cancel parent scaling */
       transform: scale(calc(1 / var(--scale)));
     }
+    .circle-highlight{
+      width:60px; height:60px; border-radius:50%; background:black;
+      display:flex; justify-content:center; align-items:center;
+      font-weight:bold; font-size:24px; color: black; /* blue */
+      /* cancel parent scaling */
+      transform: scale(calc(1 / var(--scale)));
+      opacity: 0.5;
+      animation: heartbeat_2 3s infinite ease-in-out;
+    }
     .clock{
       padding: 20px;
       text-align:center;
@@ -60,6 +69,15 @@
     }
 
     @keyframes heartbeat {
+      0%   { --scale: 1; }
+      20%  { --scale: 0.8; }
+      40%  { --scale: 0.6; }
+      60%  { --scale: 0.4; }
+      75%  { --scale: 0.6; }
+      85%  { --scale: 0.8; }
+      100% { --scale: 1; }
+    }
+     @keyframes heartbeat_2 {
       0%   { --scale: 1; }
       20%  { --scale: 0.8; }
       40%  { --scale: 0.6; }
