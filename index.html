@@ -29,14 +29,13 @@
       width:200px; height:200px; border-radius:50%;
       background:#f97316; /* orange */
       display:flex; justify-content:center; align-items:center;
-      animation: heartbeat 2s infinite;
+      animation: heartbeat 2s infinite ease-in-out;
       transform: scale(var(--scale));
     }
     .circle-inner{
       width:90px; height:90px; border-radius:50%; background:#fff;
       display:flex; justify-content:center; align-items:center;
       font-weight:bold; font-size:24px; color:#2563eb; /* blue */
-      /* cancel parent scaling */
       transform: scale(calc(1 / var(--scale)));
     }
     .clock{
@@ -59,13 +58,10 @@
       font-size:14px; font-weight:500; color:#111;
     }
 
+    /* Smooth pulsing keyframes */
     @keyframes heartbeat {
       0%   { --scale: 1; }
-      20%  { --scale: 0.9; }
-      40%  { --scale: 0.8; }
-      60%  { --scale: 0.7; }
-      75%  { --scale: 0.8; }
-      85%  { --scale: 0.9; }
+      50%  { --scale: 0.7; }
       100% { --scale: 1; }
     }
   </style>
